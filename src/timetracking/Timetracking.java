@@ -2,15 +2,22 @@ package timetracking;
 
 import com.phidgets.PhidgetException;
 import com.phidgets.RFIDPhidget;
+import java.awt.Frame;
 import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import static java.awt.SystemColor.window;
 import java.awt.Toolkit;
 import java.awt.Window;
+import javax.swing.JFrame;
 /**
  *
  * @author Lars Linden
  */
 public class Timetracking extends javax.swing.JFrame {
         
+    
+    
+    
     byte bLED;
     RFIDPhidget rfid_reader;
     RFID_TGL myTGL;
@@ -22,15 +29,16 @@ public class Timetracking extends javax.swing.JFrame {
      * Creates new form Timetracking
      */
     public Timetracking() {
-        this.setUndecorated(true);
-        this.setAlwaysOnTop(true);
-        this.setResizable(false);
-        this.setVisible(true);
+
+        
+        
+        
         initComponents();
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        int xsize = (int) tk.getScreenSize().getWidth();
-        int ysize = (int) tk.getScreenSize().getHeight();
-        this.setSize(xsize, ysize);
+        GraphicsEnvironment env = GraphicsEnvironment
+            .getLocalGraphicsEnvironment();
+        GraphicsDevice vc = env.getDefaultScreenDevice();
+        vc.setFullScreenWindow(this);
+
 
         try{
             rfid_reader = new RFIDPhidget();
