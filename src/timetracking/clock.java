@@ -1,5 +1,6 @@
 package timetracking;
 
+import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -37,7 +38,9 @@ public class clock extends javax.swing.JFrame
 
                     boolean DisplayTimeBool = Timetracking.getClockGo();
                     if (DisplayTimeBool == false){
-                        jLabelClock.setFont (jLabelClock.getFont ().deriveFont (90.0f));
+                        Font font = new Font("DialogInput",Font.PLAIN | Font.BOLD, 30);
+                        Font newFont = font.deriveFont(150F);
+                        jLabelClock.setFont(newFont);
                         jLabelClock.setText(time);
                     }
                 }
