@@ -13,15 +13,11 @@ import javax.swing.JTextField;
  */
 public class RFID_DL implements DetachListener {
     
-    private JFrame app;
-    private JTextField devNr;
-    private JTextField name;
+
     
-    public RFID_DL(JFrame app,JTextField devNr,JTextField name)
+    public RFID_DL()
     {
-        this.app = app;
-        this.devNr = devNr;
-        this.name = name;
+
     }
     
     public void detached(DetachEvent ae)
@@ -29,13 +25,12 @@ public class RFID_DL implements DetachListener {
         try
         {
             RFIDPhidget myRFID = (RFIDPhidget)ae.getSource();
-            devNr.setText("Device not found");
-            name.setText("Device not found");
+
             myRFID.setAntennaOn(true);
         }
         catch (PhidgetException ex)
         {
-            System.out.println("Fehler");
+            System.out.println("Fehler Detached" + ex);
         }
     }
     

@@ -13,15 +13,11 @@ import javax.swing.JTextField;
  */
 public class RFID_AL implements AttachListener {
     
-    private JFrame app;
-    private JTextField devNr;
-    private JTextField name;
+
     
-    public RFID_AL(JFrame app,JTextField devNr,JTextField name)
+    public RFID_AL()
     {
-        this.app = app;
-        this.devNr = devNr;
-        this.name = name;
+
     }
     
     public void attached(AttachEvent ae)
@@ -29,13 +25,12 @@ public class RFID_AL implements AttachListener {
         try
         {
             RFIDPhidget myRFID = (RFIDPhidget)ae.getSource();
-            devNr.setText(myRFID.getDeviceType());
-            name.setText(myRFID.getDeviceName());
+
             myRFID.setAntennaOn(true);
         }
         catch (PhidgetException ex)
         {
-            System.out.println("Fehler");
+            System.out.println("Fehler Attach" + ex);
         }
     }
     

@@ -2,24 +2,98 @@ package timetracking;
 
 import com.phidgets.event.TagGainListener;
 import com.phidgets.event.TagGainEvent;
-
-import javax.swing.JTextField;
+import java.util.*;
+import java.text.*;
+import javax.swing.JLabel;
 /**
  *
  * @author LaLinden
  */
 public class RFID_TGL implements TagGainListener {
     
-    private JTextField tagTxt;
+    String name;
+    String dateCheck = null;
+    SimpleDateFormat dateNow = null;
+    static public boolean clockStop;
+    static public boolean ethernet;
+    private JLabel jLabelClock;
+    public Timer timer;
+    public TimerTask task;
     
-    public RFID_TGL(JTextField tagTxt)
+    public RFID_TGL(JLabel jLabelClock)
     {
-        this.tagTxt = tagTxt;
-        
+        this.jLabelClock = jLabelClock;
+
     }
     
     public void tagGained(TagGainEvent tagGainEvent)
     {
-        tagTxt.setText(tagGainEvent.getValue());
+        clockStop = true;
+        jLabelClock.setText("Übertragung läuft...");
+        Date date = new Date();
+        SimpleDateFormat dateBegin = new SimpleDateFormat ("YYYY-MM-dd HH:mm:ss");
+        
+        String tag = "'"+ tagGainEvent.getValue() + "'";
+        String time = "'" + dateBegin.format(date) + "'";
+        try{
+        DBVerbindung DB = new DBVerbindung();
+        
+        DB.DBSelect(tag);
+        
+        dateCheck = DB.dateBegin; 
+        dateNow = new SimpleDateFormat ("YYYY-MM-dd");
+        
+        if (dateCheck == null){
+            DB.DBInsertBegin(tag, time);
+            boolean network = Timetracking.ethernet();
+            if (network == true){
+                jLabelClock.setText("Keine Verbindung!");
+            }
+            DB.DBSelectName(tag);
+            jLabelClock.setText("Willkomen" + DB.name);
+            timerStart();
+        }
+        else{
+            if (dateCheck.trim().substring(0,10).equals(dateNow.format(date))){
+                
+                DB.DBUpdateEnde(tag, time);
+                boolean network = Timetracking.ethernet();
+                if (network == true){
+                    jLabelClock.setText("Keine Verbindung!");
+                }
+                DB.DBSelectName(tag);
+                jLabelClock.setText("Schönen Feierabend" + DB.name);
+                timerStart();
+            }
+            else{
+                DB.DBInsertBegin(tag, time);
+                boolean network = Timetracking.ethernet();
+                if (network == true){
+                    jLabelClock.setText("Keine Verbindung!");
+                }
+                DB.DBSelectName(tag);
+                jLabelClock.setText("Willkomen" + DB.name);
+                timerStart();
+            }
+        }
+
+        }
+        catch (Exception e){System.out.println("Fatal Error");}
     }
+    
+    public void timerStart(){
+        timer = new Timer();
+        task = new TimerTask(){
+        
+            public void run(){
+                clockStop = false; 
+                timer.cancel();
+                task.cancel();
+                task=null;
+                timer=null;            
+            }   
+        };
+        timer.schedule(task, 2000);
+    }
+
 }
