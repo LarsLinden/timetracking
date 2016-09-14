@@ -37,9 +37,9 @@ public class Timetracking extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.black);
 
         Dimension screensize = new Dimension(vc.getDisplayMode().getWidth(), vc.getDisplayMode().getHeight());
-System.out.println(screensize.toString());
         jLabelClock.setPreferredSize(screensize);
         jLabelClock.setMinimumSize(screensize);
+        jLabelClock.setMaximumSize(screensize);
         
 
         try{

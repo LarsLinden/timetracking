@@ -37,6 +37,7 @@ public class clock extends javax.swing.JFrame
 
                     boolean DisplayTimeBool = Timetracking.getClockGo();
                     if (DisplayTimeBool == false){
+                        jLabelClock.setFont (jLabelClock.getFont ().deriveFont (90.0f));
                         jLabelClock.setText(time);
                     }
                 }
