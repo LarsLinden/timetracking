@@ -86,7 +86,7 @@ public class Timetracking extends javax.swing.JFrame {
         setUndecorated(true);
 
         jLabelClock.setBackground(new java.awt.Color(240, 240, 240));
-        jLabelClock.setFont(new java.awt.Font("DialogInput", 1, 14)); // NOI18N
+        jLabelClock.setFont(new java.awt.Font("DialogInput", 1, 8)); // NOI18N
         jLabelClock.setForeground(new java.awt.Color(0, 165, 255));
         jLabelClock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelClock.setText(bundle.getString("Timetracking.jLabelClock.text")); // NOI18N
