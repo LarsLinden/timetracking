@@ -32,10 +32,10 @@ public class RFID_TGL implements TagGainListener {
     public void tagGained(TagGainEvent tagGainEvent)
     {
         clockStop = true;
-//        Font font = new Font("DialogInput",Font.PLAIN | Font.BOLD, 1);
-//        Font newFont = font.deriveFont(1F);
-//        jLabelClock.setFont(newFont);
-//jLabelClock.setFont (jLabelClock.getFont ().deriveFont (10.0f));  
+        Font font = new Font("DialogInput",Font.PLAIN | Font.BOLD, 1);
+        Font newFont = font.deriveFont(1F);
+        jLabelClock.setFont(newFont);
+        //jLabelClock.setFont (jLabelClock.getFont ().deriveFont (10.0f));  
         jLabelClock.setText("Übertragung läuft...");
         Date date = new Date();
         SimpleDateFormat dateBegin = new SimpleDateFormat ("YYYY-MM-dd HH:mm:ss");
