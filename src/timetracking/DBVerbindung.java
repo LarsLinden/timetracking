@@ -75,9 +75,7 @@ class DBVerbindung{
                     last_name = rs.getString(2);
                     gender = rs.getString(3);
                     
-                    name = " " + gender + " " + first_name + " " + last_name;
-                    
-                    System.out.print("DER NAME LAUTET: " + name);
+                    name = "\n" + gender + " " + first_name + " " + last_name;
                 }
             
         }catch(Exception e){System.out.println("SQL SELECT name Fehler" + e);}

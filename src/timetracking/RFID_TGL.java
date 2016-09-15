@@ -68,7 +68,7 @@ public class RFID_TGL implements TagGainListener {
                     jLabelClock.setText("Keine Verbindung!");
                 }
                 DB.DBSelectName(tag);
-                jLabelClock.setText("<html>Schönen Feierabend<br></html>" + DB.name);
+                jLabelClock.setText("Schönen Feierabend" + DB.name);
                 timerStart();
             }
             else{
