@@ -24,6 +24,9 @@ public class clock extends javax.swing.JFrame
         {
             public void run()
             {
+                Font font = new Font("DialogInput",Font.PLAIN | Font.BOLD, 10);
+                Font newFont = font.deriveFont(60F);
+                jLabelClock.setFont(newFont);
                 while (timeRun == 0)
                 {
                     Calendar cal = new GregorianCalendar();
@@ -38,9 +41,6 @@ public class clock extends javax.swing.JFrame
 
                     boolean DisplayTimeBool = Timetracking.getClockGo();
                     if (DisplayTimeBool == false){
-//                        Font font = new Font("DialogInput",Font.PLAIN | Font.BOLD, 10);
-//                        Font newFont = font.deriveFont(60F);
-//                        jLabelClock.setFont(newFont);
                         jLabelClock.setText(time);
                     }
                 }
