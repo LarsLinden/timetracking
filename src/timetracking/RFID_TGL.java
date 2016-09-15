@@ -32,9 +32,9 @@ public class RFID_TGL implements TagGainListener {
     public void tagGained(TagGainEvent tagGainEvent)
     {
         clockStop = true;
-        Font font = new Font("DialogInput",Font.PLAIN | Font.BOLD, 5);
-        Font newFont = font.deriveFont(10F);
-        jLabelClock.setFont(newFont); 
+//        Font font = new Font("DialogInput",Font.PLAIN | Font.BOLD, 5);
+//        Font newFont = font.deriveFont(10F);
+//        jLabelClock.setFont(newFont); 
         jLabelClock.setText("Übertragung läuft...");
         Date date = new Date();
         SimpleDateFormat dateBegin = new SimpleDateFormat ("YYYY-MM-dd HH:mm:ss");
@@ -68,7 +68,7 @@ public class RFID_TGL implements TagGainListener {
                     jLabelClock.setText("Keine Verbindung!");
                 }
                 DB.DBSelectName(tag);
-                jLabelClock.setText("Schönen Feierabend" + DB.name);
+                jLabelClock.setText("Schönen Feierabend\n" + DB.name);
                 timerStart();
             }
             else{
@@ -78,7 +78,7 @@ public class RFID_TGL implements TagGainListener {
                     jLabelClock.setText("Keine Verbindung!");
                 }
                 DB.DBSelectName(tag);
-                jLabelClock.setText("Willkomen" + DB.name);
+                jLabelClock.setText("Willkomen\n" + DB.name);
                 timerStart();
             }
         }
