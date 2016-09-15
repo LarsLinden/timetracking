@@ -42,6 +42,7 @@ public class clock extends javax.swing.JFrame
                         Font newFont = font.deriveFont(60F);
                         jLabelClock.setFont(newFont);
                         jLabelClock.setText(time);
+                        newFont = font.deriveFont(20F);
                     }
                 }
             }                    
