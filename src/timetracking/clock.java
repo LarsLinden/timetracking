@@ -38,10 +38,11 @@ public class clock extends javax.swing.JFrame
 
                     boolean DisplayTimeBool = Timetracking.getClockGo();
                     if (DisplayTimeBool == false){
-                        Font clockFont = new Font("DialogInput",Font.PLAIN | Font.BOLD, 5);
-                        Font ClockFont = clockFont.deriveFont(60F);
-                        jLabelClock.setFont(ClockFont); 
+//                        Font clockFont = new Font("DialogInput",Font.PLAIN | Font.BOLD, 5);
+//                        Font ClockFont = clockFont.deriveFont(60F);
+//                        jLabelClock.setFont(ClockFont); 
                         jLabelClock.setText(time);
+                        jLabelClock.validate();
                     }
                 }
             }                    
