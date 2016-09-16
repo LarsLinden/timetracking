@@ -37,10 +37,10 @@ public class clock extends javax.swing.JFrame
                     String time = fmt.format(hour) + ":" + fmt.format(min) + ":" + fmt.format(sec);
 
                     boolean DisplayTimeBool = Timetracking.getClockGo();
+                    if (DisplayTimeBool == false){
                         Font clockFont = new Font("DialogInput",Font.PLAIN | Font.BOLD, 5);
                         Font ClockFont = clockFont.deriveFont(60F);
                         jLabelClock.setFont(ClockFont); 
-                    if (DisplayTimeBool == false){
                         jLabelClock.setText(time);
                     }
                 }
