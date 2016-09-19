@@ -20,6 +20,9 @@ public class RFID_TGL implements TagGainListener {
     private JLabel jLabelClock;
     public Timer timer;
     public TimerTask task;
+    public int fontSizeToUse = 60;
+    String fail = "Keine Verbindung!";
+    String welcome;
     
     public RFID_TGL(JLabel jLabelClock)
     {
@@ -32,11 +35,32 @@ public class RFID_TGL implements TagGainListener {
     public void tagGained(TagGainEvent tagGainEvent)
     {
         clockStop = true;
+        
 //        Font font = new Font("DialogInput",Font.PLAIN | Font.BOLD, 1);
 //        Font newFont = font.deriveFont(10F);
 //        jLabelClock.setFont(newFont); 
-        jLabelClock.setText("Übertragung läuft...");
-        jLabelClock.validate();
+
+Font labelFont = jLabelClock.getFont();
+String labelText = jLabelClock.getText();
+
+int stringWidth = jLabelClock.getFontMetrics(labelFont).stringWidth(labelText);
+int componentWidth = jLabelClock.getWidth();
+
+// Find out how much the font can grow in width.
+double widthRatio = (double)componentWidth / (double)stringWidth;
+
+int newFontSize = (int)(labelFont.getSize() * widthRatio);
+int componentHeight = jLabelClock.getHeight();
+
+// Pick a new font size so it will not be larger than the height of label.
+int fontSizeToUse = Math.min(newFontSize, componentHeight);
+
+// Set the label's font size to the newly determined size.
+jLabelClock.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
+
+        String connection = "Übertragung öäuft...";
+        fontSize(connection);
+        jLabelClock.setText(connection);
         Date date = new Date();
         SimpleDateFormat dateBegin = new SimpleDateFormat ("YYYY-MM-dd HH:mm:ss");
         
@@ -54,10 +78,14 @@ public class RFID_TGL implements TagGainListener {
             DB.DBInsertBegin(tag, time);
             boolean network = Timetracking.ethernet();
             if (network == true){
-                jLabelClock.setText("Keine Verbindung!");
+                fontSize(fail);
+                jLabelClock.setText(fail);
             }
             DB.DBSelectName(tag);
-            jLabelClock.setText("Willkomen" + DB.name);
+            
+            welcome = "Willkommen" + DB.name;
+            fontSize(welcome);
+            jLabelClock.setText(welcome);
             timerStart();
         }
         else{
@@ -66,7 +94,8 @@ public class RFID_TGL implements TagGainListener {
                 DB.DBUpdateEnde(tag, time);
                 boolean network = Timetracking.ethernet();
                 if (network == true){
-                    jLabelClock.setText("Keine Verbindung!");
+                    fontSize(fail);
+                    jLabelClock.setText(fail);
                 }
                 DB.DBSelectName(tag);
                 jLabelClock.setText("Schönen Feierabend" + DB.name);
@@ -76,10 +105,13 @@ public class RFID_TGL implements TagGainListener {
                 DB.DBInsertBegin(tag, time);
                 boolean network = Timetracking.ethernet();
                 if (network == true){
-                    jLabelClock.setText("Keine Verbindung!");
+                    fontSize(fail);
+                    jLabelClock.setText(fail);
                 }
                 DB.DBSelectName(tag);
-                jLabelClock.setText("Willkomen\n" + DB.name);
+                welcome = "Willkommen" + DB.name;
+                fontSize(welcome);
+                jLabelClock.setText(welcome);
                 timerStart();
             }
         }
@@ -101,6 +133,26 @@ public class RFID_TGL implements TagGainListener {
             }   
         };
         timer.schedule(task, 2000);
+    }
+    
+    public void fontSize(String text){
+        Font labelFont = jLabelClock.getFont();
+        String labelText = jLabelClock.getText();
+
+        int stringWidth = jLabelClock.getFontMetrics(labelFont).stringWidth(labelText);
+        int componentWidth = jLabelClock.getWidth();
+
+        // Find out how much the font can grow in width.
+        double widthRatio = (double)componentWidth / (double)stringWidth;
+
+        int newFontSize = (int)(labelFont.getSize() * widthRatio);
+        int componentHeight = jLabelClock.getHeight();
+
+        // Pick a new font size so it will not be larger than the height of label.
+        fontSizeToUse = Math.min(newFontSize, componentHeight);
+
+        // Set the label's font size to the newly determined size.
+        jLabelClock.setFont(new Font(labelFont.getName(), Font.BOLD, fontSizeToUse));
     }
 
 }

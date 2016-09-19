@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 public class clock extends javax.swing.JFrame 
 {
     public int timeRun;
-    
+    public int fontSizeToUse = 60;
     private JLabel jLabelClock;
     
     public clock(JLabel jLabelClock)
@@ -22,8 +22,10 @@ public class clock extends javax.swing.JFrame
                 
         new Thread()
         {
+            
             public void run()
             {
+
                 while (timeRun == 0)
                 {
                     Calendar cal = new GregorianCalendar();
@@ -38,14 +40,38 @@ public class clock extends javax.swing.JFrame
 
                     boolean DisplayTimeBool = Timetracking.getClockGo();
                     if (DisplayTimeBool == false){
-//                        Font clockFont = new Font("DialogInput",Font.PLAIN | Font.BOLD, 5);
-//                        Font ClockFont = clockFont.deriveFont(60F);
-//                        jLabelClock.setFont(ClockFont); 
+                        
+                        fontSize(time);
+                        
                         jLabelClock.setText(time);
-                        jLabelClock.validate();
+                        
                     }
                 }
             }                    
         }.start();   
+    }
+    
+    public void fontSize(String text){
+        //Font clockFont = new Font("DialogInput",Font.BOLD, 60);
+        //Font ClockFont = clockFont.deriveFont(fontSizeToUse);
+        //jLabelClock.setFont(ClockFont); 
+        
+        Font labelFont = jLabelClock.getFont();
+        String labelText = jLabelClock.getText();
+
+        int stringWidth = jLabelClock.getFontMetrics(labelFont).stringWidth(labelText);
+        int componentWidth = jLabelClock.getWidth();
+
+        // Find out how much the font can grow in width.
+        double widthRatio = (double)componentWidth / (double)stringWidth;
+
+        int newFontSize = (int)(labelFont.getSize() * widthRatio);
+        int componentHeight = jLabelClock.getHeight();
+
+        // Pick a new font size so it will not be larger than the height of label.
+        fontSizeToUse = Math.min(newFontSize, componentHeight);
+
+        // Set the label's font size to the newly determined size.
+        jLabelClock.setFont(new Font(labelFont.getName(), Font.BOLD, fontSizeToUse));
     }
 }

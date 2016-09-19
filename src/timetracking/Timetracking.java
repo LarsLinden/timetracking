@@ -4,6 +4,7 @@ import com.phidgets.PhidgetException;
 import com.phidgets.RFIDPhidget;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 /**
@@ -40,7 +41,25 @@ public class Timetracking extends javax.swing.JFrame {
         jLabelClock.setPreferredSize(screensize);
         jLabelClock.setMinimumSize(screensize);
         jLabelClock.setMaximumSize(screensize);
+                
         
+//        Font labelFont = jLabelClock.getFont();
+//        String labelText = jLabelClock.getText();
+//
+//        int stringWidth = jLabelClock.getFontMetrics(labelFont).stringWidth(labelText);
+//        int componentWidth = jLabelClock.getWidth();
+//
+//        // Find out how much the font can grow in width.
+//        double widthRatio = (double)componentWidth / (double)stringWidth;
+//
+//        int newFontSize = (int)(labelFont.getSize() * widthRatio);
+//        int componentHeight = jLabelClock.getHeight();
+//
+//        // Pick a new font size so it will not be larger than the height of label.
+//        int fontSizeToUse = Math.min(newFontSize, componentHeight);
+//
+//        // Set the label's font size to the newly determined size.
+//        jLabelClock.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
 
         try{
             clock Clock = new clock(this.jLabelClock);
@@ -86,7 +105,7 @@ public class Timetracking extends javax.swing.JFrame {
         setUndecorated(true);
 
         jLabelClock.setBackground(new java.awt.Color(240, 240, 240));
-        jLabelClock.setFont(new java.awt.Font("DialogInput", 1, 60)); // NOI18N
+        jLabelClock.setFont(jLabelClock.getFont().deriveFont(jLabelClock.getFont().getSize()+48f));
         jLabelClock.setForeground(new java.awt.Color(0, 165, 255));
         jLabelClock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelClock.setText(bundle.getString("Timetracking.jLabelClock.text")); // NOI18N
@@ -98,15 +117,11 @@ public class Timetracking extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(jLabelClock)
-                .add(0, 0, Short.MAX_VALUE))
+            .add(jLabelClock)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(jLabelClock)
-                .add(0, 0, Short.MAX_VALUE))
+            .add(jLabelClock)
         );
 
         pack();
