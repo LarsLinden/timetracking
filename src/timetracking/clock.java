@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 public class clock extends javax.swing.JFrame 
 {
     public int timeRun;
-    public int fontSizeToUse = 60;
+    public int fontSizeToUse;
     private JLabel jLabelClock;
     
     public clock(JLabel jLabelClock)
@@ -43,7 +43,7 @@ public class clock extends javax.swing.JFrame
                         
                         fontSize(time);
                         
-                        jLabelClock.setText(time);
+                        //jLabelClock.setText(time);
                         
                     }
                 }
@@ -52,14 +52,18 @@ public class clock extends javax.swing.JFrame
     }
     
     public void fontSize(String text){
-        //Font clockFont = new Font("DialogInput",Font.BOLD, 60);
-        //Font ClockFont = clockFont.deriveFont(fontSizeToUse);
-        //jLabelClock.setFont(ClockFont); 
+        if (fontSizeToUse == 0)
+        {
+        Font clockFont = new Font("DialogInput",Font.BOLD, 60);
+        Font ClockFont = clockFont.deriveFont(fontSizeToUse);
+        jLabelClock.setFont(ClockFont); 
+        }
         
+        jLabelClock.setText(text);
         Font labelFont = jLabelClock.getFont();
-        String labelText = jLabelClock.getText();
+        //String labelText = jLabelClock.getText();
 
-        int stringWidth = jLabelClock.getFontMetrics(labelFont).stringWidth(labelText);
+        int stringWidth = jLabelClock.getFontMetrics(labelFont).stringWidth(text);
         int componentWidth = jLabelClock.getWidth();
 
         // Find out how much the font can grow in width.
