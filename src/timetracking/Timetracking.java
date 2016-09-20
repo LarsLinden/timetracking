@@ -4,9 +4,9 @@ import com.phidgets.PhidgetException;
 import com.phidgets.RFIDPhidget;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Lars Linden
@@ -16,7 +16,7 @@ public class Timetracking extends javax.swing.JFrame {
     static boolean network;
     static boolean clockGo;
     byte bLED;
-    RFIDPhidget rfid_reader;
+    public RFIDPhidget rfid_reader;
     RFID_TGL myTGL;
     RFID_TLL myTLL;
     RFID_AL myAL;
@@ -28,9 +28,7 @@ public class Timetracking extends javax.swing.JFrame {
     public Timetracking() {
        
         initComponents();
-        
-        
-        
+                
         GraphicsEnvironment env = GraphicsEnvironment
             .getLocalGraphicsEnvironment();
         GraphicsDevice vc = env.getDefaultScreenDevice();
@@ -41,25 +39,6 @@ public class Timetracking extends javax.swing.JFrame {
         jLabelClock.setPreferredSize(screensize);
         jLabelClock.setMinimumSize(screensize);
         jLabelClock.setMaximumSize(screensize);
-                
-        
-//        Font labelFont = jLabelClock.getFont();
-//        String labelText = jLabelClock.getText();
-//
-//        int stringWidth = jLabelClock.getFontMetrics(labelFont).stringWidth(labelText);
-//        int componentWidth = jLabelClock.getWidth();
-//
-//        // Find out how much the font can grow in width.
-//        double widthRatio = (double)componentWidth / (double)stringWidth;
-//
-//        int newFontSize = (int)(labelFont.getSize() * widthRatio);
-//        int componentHeight = jLabelClock.getHeight();
-//
-//        // Pick a new font size so it will not be larger than the height of label.
-//        int fontSizeToUse = Math.min(newFontSize, componentHeight);
-//
-//        // Set the label's font size to the newly determined size.
-//        jLabelClock.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
 
         try{
             clock Clock = new clock(this.jLabelClock);
@@ -72,10 +51,10 @@ public class Timetracking extends javax.swing.JFrame {
             myDL = new RFID_DL();
             rfid_reader.addDetachListener(myDL);
             
-            myTGL = new RFID_TGL(this.jLabelClock);
+            myTGL = new RFID_TGL(this.jLabelClock, this.rfid_reader);
             rfid_reader.addTagGainListener(myTGL);
             
-            myTLL = new RFID_TLL();
+            myTLL = new RFID_TLL(this.rfid_reader);
             rfid_reader.addTagLossListener(myTLL);
             
             rfid_reader.openAny();
@@ -173,7 +152,7 @@ public class Timetracking extends javax.swing.JFrame {
         network = DBVerbindung.ethernet;
         return network;
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelClock;
     // End of variables declaration//GEN-END:variables

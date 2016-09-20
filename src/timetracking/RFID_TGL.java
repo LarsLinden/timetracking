@@ -1,9 +1,9 @@
 package timetracking;
 
+import com.phidgets.PhidgetException;
 import com.phidgets.event.TagGainListener;
 import com.phidgets.event.TagGainEvent;
 import com.phidgets.RFIDPhidget;
-import java.awt.Font;
 import java.util.*;
 import java.text.*;
 import javax.swing.JLabel;
@@ -19,20 +19,25 @@ public class RFID_TGL implements TagGainListener {
     static public boolean clockStop;
     static public boolean ethernet;
     private JLabel jLabelClock;
+    private RFIDPhidget rfid_reader;
     public Timer timer;
     public TimerTask task;
-    String fail = "<html><body><font size=\"60\"><span style=\"font-family:Arial\"><center>Keine<p>Verbindung!</center></span></font></body></html>";
-    String connection = "<html><body><font size=\"60\"><span style=\"font-family:Arial\"><center>Übertragung<p>läuft...</center></span></font></body></html>";
+    String fail = "<html><body><font size=\"80\"><span style=\"font-family:Arial\"><center>Keine<p>Verbindung!</center></span></font></body></html>";
+    String connection = "<html><body><font size=\"80\"><span style=\"font-family:Arial\"><center>Übertragung<p>läuft...</center></span></font></body></html>";
     String welcome;
     
-    public RFID_TGL(JLabel jLabelClock)
+    public RFID_TGL(JLabel jLabelClock, RFIDPhidget rfid_reader)
     {
         this.jLabelClock = jLabelClock;
+        this.rfid_reader = rfid_reader;
     }
 
     public void tagGained(TagGainEvent tagGainEvent)
     {
         clockStop = true;
+        
+        
+        
         
         
         jLabelClock.setText(connection);
@@ -49,11 +54,14 @@ public class RFID_TGL implements TagGainListener {
         dateCheck = DB.dateBegin; 
         dateNow = new SimpleDateFormat ("YYYY-MM-dd");
         
+        LEDRedOn();
+        
         if (dateCheck == null){
             DB.DBInsertBegin(tag, time);
             boolean network = Timetracking.ethernet();
             if (network == true){
                 jLabelClock.setText(fail);
+                LEDRedOn();
             }
             else{
             DB.DBSelectName(tag);
@@ -70,6 +78,7 @@ public class RFID_TGL implements TagGainListener {
                 boolean network = Timetracking.ethernet();
                 if (network == true){
                     jLabelClock.setText(fail);
+                    LEDRedOn();
                 }
                 else{
                 DB.DBSelectName(tag);
@@ -83,6 +92,7 @@ public class RFID_TGL implements TagGainListener {
                 boolean network = Timetracking.ethernet();
                 if (network == true){
                     jLabelClock.setText(fail);
+                    LEDRedOn();
                 }
                 else{
                 DB.DBSelectName(tag);
@@ -112,4 +122,16 @@ public class RFID_TGL implements TagGainListener {
         };
         timer.schedule(task, 2000);
     }
+    
+        private void LEDRedOn() {                                        
+        try
+        {
+            rfid_reader.setOutputState(1, Timetracking.ethernet());
+            
+        }
+        catch (PhidgetException ex)
+        {
+            System.out.println("LED " + ex);
+        }
+    } 
 }

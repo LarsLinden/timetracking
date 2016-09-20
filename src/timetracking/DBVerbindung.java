@@ -24,7 +24,8 @@ class DBVerbindung{
             dataSource.setPassword("Citrix170890!");
             dataSource.setServerName("cherryfactory.de");
             dataSource.setDatabaseName("timetracking");
-            conn = dataSource.getConnection();       
+            conn = dataSource.getConnection();
+            ethernet = false;
         }catch(Exception e){
             ethernet = true;
             System.out.println("SQL connection Fehler");
