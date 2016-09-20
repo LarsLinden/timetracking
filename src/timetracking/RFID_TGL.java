@@ -2,6 +2,7 @@ package timetracking;
 
 import com.phidgets.event.TagGainListener;
 import com.phidgets.event.TagGainEvent;
+import com.phidgets.RFIDPhidget;
 import java.awt.Font;
 import java.util.*;
 import java.text.*;
@@ -20,8 +21,8 @@ public class RFID_TGL implements TagGainListener {
     private JLabel jLabelClock;
     public Timer timer;
     public TimerTask task;
-    String fail = "<html><body><font size=\"6\"><span style=\"font-family:Arial\"><center>Keine<p>Verbindung!</center></span></font></body></html>";
-    String connection = "<html><body><font size=\"6\"><span style=\"font-family:Arial\"><center>Übertragung<p>läuft...</center></span></font></body></html>";
+    String fail = "<html><body><font size=\"20\"><span style=\"font-family:Arial\"><center>Keine<p>Verbindung!</center></span></font></body></html>";
+    String connection = "<html><body><font size=\"20\"><span style=\"font-family:Arial\"><center>Übertragung<p>läuft...</center></span></font></body></html>";
     String welcome;
     
     public RFID_TGL(JLabel jLabelClock)
@@ -32,7 +33,8 @@ public class RFID_TGL implements TagGainListener {
     public void tagGained(TagGainEvent tagGainEvent)
     {
         clockStop = true;
-
+        
+        
         jLabelClock.setText(connection);
         Date date = new Date();
         SimpleDateFormat dateBegin = new SimpleDateFormat ("YYYY-MM-dd HH:mm:ss");
@@ -56,7 +58,7 @@ public class RFID_TGL implements TagGainListener {
             else{
             DB.DBSelectName(tag);
             
-            welcome = "<html><body><font size=\"6\"><span style=\"font-family:Arial;font-size:13px;\"><center>Willkommen<p>" + DB.name + "</center></span></font></body></html>";
+            welcome = "<html><body><font size=\"20\"><span style=\"font-family:Arial;font-size:13px;\"><center>Willkommen<p>" + DB.name + "</center></span></font></body></html>";
             jLabelClock.setText(welcome);
             }
             timerStart();
@@ -71,7 +73,7 @@ public class RFID_TGL implements TagGainListener {
                 }
                 else{
                 DB.DBSelectName(tag);
-                String bye = "<html><body><font size=\"6\"><span style=\"font-family:Arial\"><center>Schönen Feierabend<p>" + DB.name + "</center></span></font></body></hrml>";
+                String bye = "<html><body><font size=\"20\"><span style=\"font-family:Arial\"><center>Schönen Feierabend<p>" + DB.name + "</center></span></font></body></hrml>";
                 jLabelClock.setText(bye);
                 }
                 timerStart();
@@ -84,7 +86,7 @@ public class RFID_TGL implements TagGainListener {
                 }
                 else{
                 DB.DBSelectName(tag);
-                welcome = "<html><body><font size=\"6\"><span style=\"font-family:Arial\"><center>Willkommen<p>" + DB.name + "</center></span></font></body></html>";
+                welcome = "<html><body><font size=\"20\"><span style=\"font-family:Arial\"><center>Willkommen<p>" + DB.name + "</center></span></font></body></html>";
                 jLabelClock.setText(welcome);
                 }
                 timerStart();
@@ -94,6 +96,7 @@ public class RFID_TGL implements TagGainListener {
         }
         catch (Exception e){System.out.println("Fatal Error");}
     }
+
     
     public void timerStart(){
         timer = new Timer();
