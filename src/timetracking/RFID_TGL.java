@@ -21,8 +21,8 @@ public class RFID_TGL implements TagGainListener {
     private JLabel jLabelClock;
     public Timer timer;
     public TimerTask task;
-    String fail = "<html><body><font size=\"40\"><span style=\"font-family:Arial\"><center>Keine<p>Verbindung!</center></span></font></body></html>";
-    String connection = "<html><body><font size=\"40\"><span style=\"font-family:Arial\"><center>Übertragung<p>läuft...</center></span></font></body></html>";
+    String fail = "<html><body><font size=\"60\"><span style=\"font-family:Arial\"><center>Keine<p>Verbindung!</center></span></font></body></html>";
+    String connection = "<html><body><font size=\"60\"><span style=\"font-family:Arial\"><center>Übertragung<p>läuft...</center></span></font></body></html>";
     String welcome;
     
     public RFID_TGL(JLabel jLabelClock)
