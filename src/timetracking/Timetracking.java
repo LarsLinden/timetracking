@@ -82,7 +82,7 @@ public class Timetracking extends javax.swing.JFrame {
             rfid_reader.waitForAttachment(1000);
             
            } catch (PhidgetException ex) {
-               System.out.println("No interface found");
+               System.out.println("No interface found " + ex);
         }
     }
 
