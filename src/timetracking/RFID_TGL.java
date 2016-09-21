@@ -24,6 +24,7 @@ public class RFID_TGL implements TagGainListener {
     public Timer timer2;
     public TimerTask task;
     public TimerTask task2;
+    private boolean redLED;
     String fail = "<html><body><font size=\"80\"><span style=\"font-family:Arial\"><center>Keine<p>Verbindung!</center></span></font></body></html>";
     String connection = "<html><body><font size=\"80\"><span style=\"font-family:Arial\"><center>Übertragung<p>läuft...</center></span></font></body></html>";
     String welcome;
@@ -67,9 +68,11 @@ public class RFID_TGL implements TagGainListener {
             }
             else{
                 jLabelClock.setText("<html><body><font size=\"35\"><span style=\"font-family:Arial;font-size:13px;\"><center>Unbekannter Tag<p>" + tag + "</center></span></font></body></html>");
-                timerStartLED(true);
+                redLED = true;
+                timerStartLED();
             }
-            LEDRedOnManual(false);
+            redLED = false;
+            LEDRedOnManual();
             timerStart();
         }
         else{
@@ -124,12 +127,13 @@ public class RFID_TGL implements TagGainListener {
         timer.schedule(task, 2000);
     }
     
-    public void timerStartLED(boolean on){
+    public void timerStartLED(){
         timer2 = new Timer();
         task2 = new TimerTask(){
         
             public void run(){
-                LEDRedOnManual(on);
+                redLED = true;
+                LEDRedOnManual();
                 timer2.cancel();
                 task2.cancel();
                 task2=null;
@@ -151,10 +155,10 @@ public class RFID_TGL implements TagGainListener {
         }
     }
         
-    private void LEDRedOnManual(boolean on) {
+    private void LEDRedOnManual() {
         try
         {
-            rfid_reader.setOutputState(1, on);
+            rfid_reader.setOutputState(1, redLED);
             
         }
         catch (PhidgetException ex)
