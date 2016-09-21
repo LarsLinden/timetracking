@@ -24,7 +24,7 @@ public class RFID_TGL implements TagGainListener {
     public Timer timer2;
     public TimerTask task;
     public TimerTask task2;
-    private boolean redLED;
+    public boolean redLED;
     String fail = "<html><body><font size=\"80\"><span style=\"font-family:Arial\"><center>Keine<p>Verbindung!</center></span></font></body></html>";
     String connection = "<html><body><font size=\"80\"><span style=\"font-family:Arial\"><center>Übertragung<p>läuft...</center></span></font></body></html>";
     String welcome;
@@ -68,7 +68,6 @@ public class RFID_TGL implements TagGainListener {
             }
             else{
                 jLabelClock.setText("<html><body><font size=\"35\"><span style=\"font-family:Arial;font-size:13px;\"><center>Unbekannter Tag<p>" + tag + "</center></span></font></body></html>");
-                redLED = true;
                 timerStartLED();
             }
             redLED = false;
@@ -132,6 +131,7 @@ public class RFID_TGL implements TagGainListener {
         task2 = new TimerTask(){
         
             public void run(){
+                redLED = true;
                 LEDRedOnManual();
                 timer2.cancel();
                 task2.cancel();
