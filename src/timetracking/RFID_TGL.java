@@ -190,7 +190,7 @@ public class RFID_TGL implements TagGainListener {
     private void LEDGreen() {
         try
         {
-            rfid_reader.setOutputState(1, greenLED);
+            rfid_reader.setOutputState(0, greenLED);
             
         }
         catch (PhidgetException ex)
