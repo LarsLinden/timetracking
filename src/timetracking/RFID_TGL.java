@@ -22,9 +22,12 @@ public class RFID_TGL implements TagGainListener {
     private RFIDPhidget rfid_reader;
     public Timer timer;
     public Timer timer2;
+    public Timer timer3;
     public TimerTask task;
     public TimerTask task2;
+    public TimerTask task3;
     public boolean redLED;
+    public boolean greenLED;
     String fail = "<html><body><font size=\"80\"><span style=\"font-family:Arial\"><center>Keine<p>Verbindung!</center></span></font></body></html>";
     String connection = "<html><body><font size=\"80\"><span style=\"font-family:Arial\"><center>Übertragung<p>läuft...</center></span></font></body></html>";
     String welcome;
@@ -38,11 +41,7 @@ public class RFID_TGL implements TagGainListener {
     public void tagGained(TagGainEvent tagGainEvent)
     {
         clockStop = true;
-        
-        
-        
-        
-        
+
         jLabelClock.setText(connection);
         Date date = new Date();
         SimpleDateFormat dateBegin = new SimpleDateFormat ("YYYY-MM-dd HH:mm:ss");
@@ -87,6 +86,9 @@ public class RFID_TGL implements TagGainListener {
                 DB.DBSelectName(tag);
                 String bye = "<html><body><font size=\"35\"><span style=\"font-family:Arial\"><center>Schönen Feierabend<p>" + DB.name + "</center></span></font></body></hrml>";
                 jLabelClock.setText(bye);
+                greenLED = true;
+                LEDGreen();
+                timerStartGreenPiep();
                 }
                 timerStart();
             }
@@ -101,6 +103,9 @@ public class RFID_TGL implements TagGainListener {
                 DB.DBSelectName(tag);
                 welcome = "<html><body><font size=\"35\"><span style=\"font-family:Arial\"><center>Willkommen<p>" + DB.name + "</center></span></font></body></html>";
                 jLabelClock.setText(welcome);
+                greenLED = true;
+                LEDGreen();
+                timerStartGreenPiep();
                 }
                 timerStart();
             }
@@ -142,6 +147,22 @@ public class RFID_TGL implements TagGainListener {
         timer2.schedule(task2, 1000);
     }
     
+        public void timerStartGreenPiep(){
+        timer3 = new Timer();
+        task3 = new TimerTask(){
+        
+            public void run(){
+                greenLED = false;
+                LEDGreen();
+                timer3.cancel();
+                task3.cancel();
+                task3=null;
+                timer3=null;            
+            }   
+        };
+        timer3.schedule(task3, 500);
+    }
+    
     private void LEDRedOn() {                                        
         try
         {
@@ -165,4 +186,16 @@ public class RFID_TGL implements TagGainListener {
             System.out.println("LED " + ex);
         }
     } 
+    
+    private void LEDGreen() {
+        try
+        {
+            rfid_reader.setOutputState(1, greenLED);
+            
+        }
+        catch (PhidgetException ex)
+        {
+            System.out.println("LED " + ex);
+        }
+    }
 }
