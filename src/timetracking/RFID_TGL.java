@@ -65,13 +65,13 @@ public class RFID_TGL implements TagGainListener {
                 jLabelClock.setText(fail);
                 LEDRedOn();
             }
-            else{
-            DB.DBSelectName(tag);
-            
-            welcome = "<html><body><font size=\"35\"><span style=\"font-family:Arial;font-size:13px;\"><center>Willkommen<p>" + DB.name + "</center></span></font></body></html>";
-            jLabelClock.setText(welcome);
-            }
-            timerStart();
+//            else{
+//            DB.DBSelectName(tag);
+//            
+//            welcome = "<html><body><font size=\"35\"><span style=\"font-family:Arial;font-size:13px;\"><center>Willkommen<p>" + DB.name + "</center></span></font></body></html>";
+//            jLabelClock.setText(welcome);
+//            }
+//            timerStart();
         }
         else{
             if (dateCheck.trim().substring(0,10).equals(dateNow.format(date))){
