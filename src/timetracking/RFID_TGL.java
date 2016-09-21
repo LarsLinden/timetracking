@@ -132,7 +132,6 @@ public class RFID_TGL implements TagGainListener {
         task2 = new TimerTask(){
         
             public void run(){
-                redLED = true;
                 LEDRedOnManual();
                 timer2.cancel();
                 task2.cancel();
