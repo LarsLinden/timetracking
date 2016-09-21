@@ -56,8 +56,10 @@ public class RFID_TGL implements TagGainListener {
         
         LEDRedOn();
         
-        if (dateCheck == null){
-            DB.DBInsertBegin(tag, time);
+        if (dateCheck == null){          
+            LEDRedOnManual(true);
+            jLabelClock.setText("<html><body><font size=\"35\"><span style=\"font-family:Arial;font-size:13px;\"><center>Unbekannter Tag<p>" + tag + "</center></span></font></body></html>");
+            LEDRedOnManual(false);
             boolean network = Timetracking.ethernet();
             if (network == true){
                 jLabelClock.setText(fail);
@@ -123,10 +125,22 @@ public class RFID_TGL implements TagGainListener {
         timer.schedule(task, 2000);
     }
     
-        private void LEDRedOn() {                                        
+    private void LEDRedOn() {                                        
         try
         {
             rfid_reader.setOutputState(1, Timetracking.ethernet());
+            
+        }
+        catch (PhidgetException ex)
+        {
+            System.out.println("LED " + ex);
+        }
+    }
+        
+    private void LEDRedOnManual(boolean on) {
+        try
+        {
+            rfid_reader.setOutputState(1, on);
             
         }
         catch (PhidgetException ex)
