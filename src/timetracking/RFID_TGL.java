@@ -190,6 +190,7 @@ public class RFID_TGL implements TagGainListener {
     private void LEDGreen() {
         try
         {
+            //Wieder auf 0 setzten!!! Ansonsten kein Grpünes Licht und kein Signalton! Nur für die Entwicklungszeit umgestelt!
             rfid_reader.setOutputState(0, greenLED);
             
         }

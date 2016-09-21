@@ -21,21 +21,8 @@ public class RFID_TLL implements TagLossListener {
     public void tagLost(TagLossEvent tagLossEvent)
     {
         clockGo = true;
-        //LEDRedOff();
         try {
             Thread.sleep(5000);
         } catch (InterruptedException ex) {System.out.println("Fehler Sleep" + ex);}
-    }
-    
-            private void LEDRedOff() {                                        
-        try
-        {
-            rfid_reader.setOutputState(1, false);
-            
-        }
-        catch (PhidgetException ex)
-        {
-            System.out.println("LED " + ex);
-        }
     } 
 }
