@@ -93,7 +93,7 @@ public class RFID_TGL implements TagGainListener {
                 timerStart();
             }
             else{
-                DB.DBInsertBegin(tag, time);
+                DB.DBInsertBegin(tag, time, dateNow.toString());
                 boolean network = Timetracking.ethernet();
                 if (network == true){
                     jLabelClock.setText(fail);
@@ -191,7 +191,7 @@ public class RFID_TGL implements TagGainListener {
         try
         {
             //Wieder auf 0 setzten!!! Ansonsten kein Grpünes Licht und kein Signalton! Nur für die Entwicklungszeit umgestelt!
-            rfid_reader.setOutputState(0, greenLED);
+            rfid_reader.setOutputState(1, greenLED);
             
         }
         catch (PhidgetException ex)

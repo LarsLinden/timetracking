@@ -32,10 +32,11 @@ class DBVerbindung{
         }  
     }  
     
-    public void DBInsertBegin(String tag, String time){
+    public void DBInsertBegin(String tag, String time, String date){
+        
         
         try(Statement stmt = (Statement) conn.createStatement()) {          
-            stmt.executeUpdate("INSERT INTO worktime(tag, begin) VALUES (" + tag + ", " + time + ")");            
+            stmt.executeUpdate("INSERT INTO worktime(tag, begin, date) VALUES (" + tag + ", " + time + ", " + date + ")");            
         }catch(Exception e){System.out.println("SQL Insert Fehler" + e);}
         WelcomeOrGo = true;
     }
@@ -43,7 +44,7 @@ class DBVerbindung{
     public void DBUpdateEnde(String tag, String time){
         
         try(Statement stmt = (Statement) conn.createStatement()) {          
-            stmt.executeUpdate("UPDATE worktime set ende = (" + time + ") WHERE tag  = " + tag);            
+            stmt.executeUpdate("UPDATE worktime set ende = (" + time + ") WHERE (tag  = " + tag + ") AND (date = )");            
         }catch(Exception e){System.out.println("SQL UPDATE Fehler" + e);}
         WelcomeOrGo = false;
     }
