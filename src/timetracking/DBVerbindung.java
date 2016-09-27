@@ -13,7 +13,6 @@ class DBVerbindung{
     String first_name;
     String gender;
     String name;
-    String available;
     String tagCheck;
     
     boolean WelcomeOrGo;
@@ -43,10 +42,10 @@ class DBVerbindung{
         WelcomeOrGo = true;
     }
     
-    public void DBUpdateEnde(String tag, String time){
+    public void DBUpdateEnde(String tag, String time, String date){
         
         try(Statement stmt = (Statement) conn.createStatement()) {          
-            stmt.executeUpdate("UPDATE worktime set ende = (" + time + ") WHERE (tag  = " + tag + ") AND (date = )");            
+            stmt.executeUpdate("UPDATE worktime set ende = (" + time + ") WHERE (tag  = " + tag + ") AND (date = " + date + ")");            
         }catch(Exception e){System.out.println("SQL UPDATE Fehler" + e);}
         WelcomeOrGo = false;
     }

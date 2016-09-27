@@ -15,7 +15,9 @@ public class RFID_TGL implements TagGainListener {
     
     String name;
     String dateCheck = null;
+    String tagCheck = null;
     SimpleDateFormat dateNow = null;
+    SimpleDateFormat dateCheckNow = null;
     static public boolean clockStop;
     static public boolean ethernet;
     private JLabel jLabelClock;
@@ -53,9 +55,10 @@ public class RFID_TGL implements TagGainListener {
         
         DB.DBSelect(tag);
         
-        dateCheck = DB.dateBegin; 
-        dateNow = new SimpleDateFormat ("YYYY-MM-dd");
-        
+        dateCheck = DB.dateBegin;
+        tagCheck = DB.tagCheck;
+        dateNow = new SimpleDateFormat ("YYYYMMdd");
+        dateCheckNow = new SimpleDateFormat ("YYYY-MM-dd");
         LEDRedOn();
         
         if (dateCheck == null){          
@@ -66,10 +69,16 @@ public class RFID_TGL implements TagGainListener {
                 LEDRedOn();
             }
             else{
-                DB.DBInsertBegin(tag, time, dateNow.toString());
                 String tagCheck = DB.DBSelectCheck(tag);
                 
-                if (tagCheck.equals(tag)){
+                if (tagCheck == null){
+                    jLabelClock.setText("<html><body><font size=\"35\"><span style=\"font-family:Arial;font-size:13px;\"><center>Unbekannter Tag<p>" + tag + "</center></span></font></body></html>");
+                    redLED = true;
+                    LEDRedOnManual();
+                    timerStartLED();
+                }
+                else{
+                    DB.DBInsertBegin(tag, time, dateNow.format(date));
                     DB.DBSelectName(tag);
                     welcome = "<html><body><font size=\"35\"><span style=\"font-family:Arial\"><center>Willkommen<p>" + DB.name + "</center></span></font></body></html>";
                     jLabelClock.setText(welcome);
@@ -77,19 +86,13 @@ public class RFID_TGL implements TagGainListener {
                     LEDGreen();
                     timerStartGreenPiep();
                 }
-                else{
-                    jLabelClock.setText("<html><body><font size=\"35\"><span style=\"font-family:Arial;font-size:13px;\"><center>Unbekannter Tag<p>" + tag + "</center></span></font></body></html>");
-                    redLED = true;
-                    LEDRedOnManual();
-                    timerStartLED();
-                }
             }
             timerStart();
         }
         else{
-            if (dateCheck.trim().substring(0,10).equals(dateNow.format(date))){
+            if (dateCheck.trim().substring(0,10).equals(dateCheckNow.format(date))){
                 
-                DB.DBUpdateEnde(tag, time);
+                DB.DBUpdateEnde(tag, time, dateNow.format(date));
                 boolean network = Timetracking.ethernet();
                 if (network == true){
                     jLabelClock.setText(fail);
@@ -106,7 +109,7 @@ public class RFID_TGL implements TagGainListener {
                 timerStart();
             }
             else{
-                DB.DBInsertBegin(tag, time, dateNow.toString());
+                DB.DBInsertBegin(tag, time, dateNow.format(date));
                 boolean network = Timetracking.ethernet();
                 if (network == true){
                     jLabelClock.setText(fail);
@@ -204,7 +207,7 @@ public class RFID_TGL implements TagGainListener {
         try
         {
             //Wieder auf 0 setzten!!! Ansonsten kein Grpünes Licht und kein Signalton! Nur für die Entwicklungszeit umgestelt!
-            rfid_reader.setOutputState(1, greenLED);
+            rfid_reader.setOutputState(0, greenLED);
             
         }
         catch (PhidgetException ex)
