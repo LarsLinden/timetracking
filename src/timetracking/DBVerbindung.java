@@ -13,6 +13,8 @@ class DBVerbindung{
     String first_name;
     String gender;
     String name;
+    String available;
+    String tagCheck;
     
     boolean WelcomeOrGo;
     
@@ -84,4 +86,21 @@ class DBVerbindung{
         
         return name;
     }
+    
+    public String DBSelectCheck (String tag){
+        
+        try{
+            Statement stmt = (Statement) conn.createStatement();          
+            ResultSet rs = stmt.executeQuery("SELECT tag FROM personal WHERE tag = " + tag );
+                             
+            while (rs.next())
+                {   
+                    tagCheck = rs.getString(1);
+                }
+            
+        }catch(Exception e){System.out.println("SQL SELECT check Fehler" + e);}
+        
+        return tagCheck;
+    }
+
 }
